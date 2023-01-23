@@ -11,21 +11,24 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 public class Swerve extends SubsystemBase {
-  //private final Pigeon2 gyro;
-  AHRS gyro;
+  //private final Pigeon2 gyro1;
+
+  ADIS16448_IMU gyro;
   private SwerveDriveOdometry swerveOdometry;
   private SwerveModule[] mSwerveMods;
 
   private Field2d field;
 
   public Swerve() {
-    //gyro = new Pigeon2(Constants.Swerve.pigeonID);
-    gyro = new AHRS(SerialPort.Port.kUSB1);
+    //gyro1 = new Pigeon2(Constants.Swerve.pigeonID);
+    gyro = new ADIS16448_IMU();
     gyro.calibrate();
-    //gyro.configFactoryDefault();
+    //gyro1.configFactoryDefault();
+    
     zeroGyro();
 
     swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw());
@@ -83,14 +86,15 @@ public class Swerve extends SubsystemBase {
   }
 
   public void zeroGyro() {
-    gyro.zeroYaw();
+    //FIXME ?
+    gyro.reset();
     //gyro.setYaw(0);
   }
 
   public Rotation2d getYaw() {
-    return (Constants.Swerve.invertGyro)
-        ? Rotation2d.fromDegrees(360 - gyro.getYaw())
-        : Rotation2d.fromDegrees(gyro.getYaw());
+    return (Constants.Swerve.invertGyro)//FIXME ??
+        ? Rotation2d.fromDegrees(360 - gyro.getGyroAngleZ()/*gyro.getYaw()*/)
+        : Rotation2d.fromDegrees(gyro.getGyroAngleZ()/*getYaw()*/);
   }
 
   @Override
