@@ -1,5 +1,5 @@
 package frc.robot.subsystems;
-
+import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,15 +14,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Swerve extends SubsystemBase {
-  private final Pigeon2 gyro;
-
+  //private final Pigeon2 gyro;
+  
   private SwerveDriveOdometry swerveOdometry;
   private SwerveModule[] mSwerveMods;
 
   private Field2d field;
 
   public Swerve() {
-    gyro = new Pigeon2(Constants.Swerve.pigeonID);
+    //gyro = new Pigeon2(Constants.Swerve.pigeonID);
+    
     gyro.configFactoryDefault();
     zeroGyro();
 
